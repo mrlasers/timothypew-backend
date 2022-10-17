@@ -18,3 +18,4 @@ jobs:
       - run: yarn install
       - run: pm2 restart "tp-backend"
       - run: echo ${{ secrets.TIMOTHYPEW_BACKEND_PORT }} > secrets.env
+      - run: echo "ugh, i hate this" > secrets.env
