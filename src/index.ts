@@ -5,6 +5,7 @@ import Express from "express"
 import * as E from "fp-ts/Either"
 import { flow, identity, Lazy, pipe } from "fp-ts/lib/function"
 import * as TE from "fp-ts/TaskEither"
+import * as Fs from "fs/promises"
 import * as D from "io-ts/Decoder"
 
 import { ifThenElse } from "./lib"
@@ -18,6 +19,7 @@ const isDev = process.env.NODE_ENV === "development"
 
 if (!openWeatherMapsKey) {
   console.log("Exiting with error: missing env var OPEN_WEATHER_MAPS_KEY")
+  Fs.writeFile("error_log", "OPEN_WEATHER_MAPS_KEY env variable wasn't set")
   process.exit(1)
 }
 
