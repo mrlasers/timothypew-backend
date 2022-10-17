@@ -9,3 +9,4 @@ jobs:
       - run: mkdir -p ~/timothypew-backend
       - run: cp -r * ~/timothypew-backend
       - run: yarn install
+      - run: pm2 restart "tp-backend"
