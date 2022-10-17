@@ -8,10 +8,10 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-      - shell: bash
-        env:
-          OPEN_WEATHER_MAPS_KEY: ${{ secrets.OPEN_WEATHER_MAPS_KEY }}
-          TIMOTHYPEW_BACKEND_PORT: ${{ secrets.TIMOTHYPEW_BACKEND_PORT }}
+      # - shell: bash
+      #   env:
+      #     OPEN_WEATHER_MAPS_KEY: ${{ secrets.OPEN_WEATHER_MAPS_KEY }}
+      #     TIMOTHYPEW_BACKEND_PORT: ${{ secrets.TIMOTHYPEW_BACKEND_PORT }}
       - uses: actions/checkout@v3
       - run: mkdir -p ~/timothypew-backend
       - run: cp -r * ~/timothypew-backend
