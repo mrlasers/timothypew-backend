@@ -6,4 +6,6 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
+      - run: mkdir -p ~/timothypew-backend
+      - run: cp -r * ~/timothypew-backend
       - run: yarn install
