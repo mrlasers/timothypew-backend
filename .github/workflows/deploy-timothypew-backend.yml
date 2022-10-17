@@ -1,13 +1,17 @@
 name: deploy-backend
 run-name: ${{ github.actor }} is deploying timothypew deploy-backend
 on: [push]
-env:
-  set-env: OPEN_WEATHER_MAPS_KEY:=${{ secrets.OPEN_WEATHER_MAPS_KEY }}
-  set-env: TIMOTHYPEW_BACKEND_PORT=${{ secrets.TIMOTHYPEW_BACKEND_PORT }}
+# env:
+#   set-env: OPEN_WEATHER_MAPS_KEY:=${{ secrets.OPEN_WEATHER_MAPS_KEY }}
+#   set-env: TIMOTHYPEW_BACKEND_PORT=${{ secrets.TIMOTHYPEW_BACKEND_PORT }}
 jobs:
   build:
     runs-on: self-hosted
     steps:
+      - shell: bash
+        env:
+          OPEN_WEATHER_MAPS_KEY: ${{ secrets.OPEN_WEATHER_MAPS_KEY }}
+          TIMOTHYPEW_BACKEND_PORT: ${{ secrets.TIMOTHYPEW_BACKEND_PORT }}
       - uses: actions/checkout@v3
       - run: mkdir -p ~/timothypew-backend
       - run: cp -r * ~/timothypew-backend
