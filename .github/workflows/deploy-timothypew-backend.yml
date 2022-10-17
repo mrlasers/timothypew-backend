@@ -1,0 +1,9 @@
+name: deploy-backend
+run-name: ${{ github.actor }} is deploying timothypew deploy-backend
+on: [push]
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      - run: yarn install

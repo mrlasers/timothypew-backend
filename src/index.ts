@@ -1,19 +1,39 @@
 import Axios from "axios"
+import Cors from "cors"
 import * as Dotenv from "dotenv"
 import Express from "express"
 import * as E from "fp-ts/Either"
-import { flow, identity, pipe } from "fp-ts/lib/function"
+import { flow, identity, Lazy, pipe } from "fp-ts/lib/function"
 import * as TE from "fp-ts/TaskEither"
 import * as D from "io-ts/Decoder"
 
+import { ifThenElse } from "./lib"
 import { MrError } from "./types"
 
 Dotenv.config()
 
-const app = Express()
-const port = 7070
-
+const port = process.env.TIMOTHYPEW_BACKEND_PORT || 7070
 const openWeatherMapsKey = process.env.OPEN_WEATHER_MAPS_KEY
+const isDev = process.env.NODE_ENV !== "production"
+
+const app = Express()
+
+app.use(
+  Cors({
+    origin: (origin, callback) => {
+      console.log("origin?", origin)
+
+      return isDev || (!!origin && /timothypew\.com$/.test(origin))
+        ? callback(null, true)
+        : callback(new Error("Forbidden"))
+    },
+  })
+)
+
+if (!openWeatherMapsKey) {
+  console.log("Exiting with error: missing env var OPEN_WEATHER_MAPS_KEY")
+  process.exit(1)
+}
 
 export const GeoResponse = D.struct({
   zip: D.string,
@@ -33,61 +53,54 @@ const axiosGet = (url: string) =>
     MrError.of("AXIOS_GET_ERROR")
   )
 
+const getZipCodeLocation = (zip: string, appid: string) =>
+  pipe(
+    axiosGet(
+      `http://api.openweathermap.org/geo/1.0/zip?zip=${zip}&appid=${appid}`
+    ),
+    TE.chain(
+      flow(
+        GeoResponse.decode,
+        E.mapLeft(flow(D.draw, MrError.of("GEO_RESPONSE_DECODE_ERROR"))),
+        TE.fromEither
+      )
+    )
+  )
+
+const getForecastFromLocation = ({ lat, lon }: GeoResponse, appid: string) => {
+  return axiosGet(
+    `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${appid}`
+  )
+}
+
 app.get("/", (req, res) => {
   res.send(`"Hello."`)
 })
 
 app.get("/weather/forecast/:zip", (req, res) => {
-  const { zip } = req.params
-
-  pipe(
-    zips[zip]
-      ? TE.right(zips[zip])
-      : pipe(
-          axiosGet(
-            `http://api.openweathermap.org/geo/1.0/zip?zip=${"98366"}&appid=${openWeatherMapsKey}`
-          ),
-          TE.chain(
-            flow(
-              GeoResponse.decode,
-              E.mapLeft(flow(D.draw, MrError.of("GEO_RESPONSE_DECODE_ERROR"))),
-              TE.fromEither
-            )
-          )
-        ),
+  return pipe(
+    // should probably check that this is a 5-digit number
+    req.params.zip,
+    (zip) =>
+      ifThenElse(zips[zip], TE.right, () =>
+        getZipCodeLocation(zip, openWeatherMapsKey)
+      ),
     TE.bindTo("location"),
-    TE.bind("forecast", ({ location: { lat, lon } }) =>
-      axiosGet(
-        `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${openWeatherMapsKey}`
-      )
+    TE.bind("forecast", ({ location }) =>
+      getForecastFromLocation(location, openWeatherMapsKey)
     )
   )()
     .then(
       E.fold(
-        () => res.status(401).send("oops, you oopsied"),
+        () => res.status(401).send("BAD_REQUEST"),
         ({ location, forecast }) => {
-          zips[zip] = location
+          // we'll encapsulate this or something later if it looks like we need to do that
+          zips[location.zip] = location
           return res.send(forecast)
         }
       )
     )
-    .catch((err) => res.status(500).send("oops, errr!"))
-
-  //   return pipe(
-  //     zips[zip],
-  //     TE.fromNullable(
-  //       Axios.get(
-  //         `http://api.openweathermap.org/geo/1.0/zip?zip=${"98366"}&appid=${openWeatherMapsKey}`
-  //       ).then(({ data }) => data)
-  //     ),
-  //     TE.map()
-  //   )
-
-  //   // const result = zips[zip]
-  //   //   ? Promise.resolve(zips[zip])
-  //   // :
-
-  //   // return result.catch((err) => res.status(500).send(err))
+    .catch((err) => res.status(500).send("INTERNAL_ERROR"))
 })
 
 app.listen(port, () => {
