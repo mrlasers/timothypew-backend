@@ -17,6 +17,6 @@ jobs:
       - run: mkdir -p ~/timothypew-backend
       - run: cp -r * ~/timothypew-backend
       - run: yarn install
+      - run: echo TIMOTHYPEW_BACKEND_PORT=${{ secrets.TIMOTHYPEW_BACKEND_PORT }} >> .env
+      - run: echo OPEN_WEATHER_MAPS_KEY=${{ secrets.OPEN_WEATHER_MAPS_KEY }} >> .env
       - run: pm2 restart "tp-backend"
-      - run: echo TIMOTHYPEW_BACKEND_PORT=${{ secrets.TIMOTHYPEW_BACKEND_PORT }} >> secrets.env
-      - run: echo "ugh, i hate this" >> secrets.env
