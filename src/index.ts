@@ -16,6 +16,11 @@ const port = process.env.TIMOTHYPEW_BACKEND_PORT || 7070
 const openWeatherMapsKey = process.env.OPEN_WEATHER_MAPS_KEY
 const isDev = process.env.NODE_ENV === "development"
 
+if (!openWeatherMapsKey) {
+  console.log("Exiting with error: missing env var OPEN_WEATHER_MAPS_KEY")
+  process.exit(1)
+}
+
 const app = Express()
 
 app.use(
@@ -31,11 +36,6 @@ app.use(
     },
   })
 )
-
-if (!openWeatherMapsKey) {
-  console.log("Exiting with error: missing env var OPEN_WEATHER_MAPS_KEY")
-  process.exit(1)
-}
 
 export const GeoResponse = D.struct({
   zip: D.string,
