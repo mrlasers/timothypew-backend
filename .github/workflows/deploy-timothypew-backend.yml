@@ -18,5 +18,5 @@ jobs:
       - run: cp -r * ~/timothypew-backend
       - run: yarn install
       - run: pm2 restart "tp-backend"
-      - run: echo ${{ secrets.TIMOTHYPEW_BACKEND_PORT }} > $TIMOTHYPEW_BACKEND_PORT
+      - run: export TIMOTHYPEW_BACKEND_PORT=${{ secrets.TIMOTHYPEW_BACKEND_PORT }}
       - run: echo "ugh, i hate this" >> secrets.env
