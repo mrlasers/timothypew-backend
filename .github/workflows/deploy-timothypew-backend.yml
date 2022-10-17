@@ -1,6 +1,9 @@
 name: deploy-backend
 run-name: ${{ github.actor }} is deploying timothypew deploy-backend
 on: [push]
+env:
+  OPEN_WEATHER_MAPS_KEY: ${{ secrets.OPEN_WEATHER_MAPS_KEY }}
+  TIMOTHYPEW_BACKEND_PORT: ${{ secrets.TIMOTHYPEW_BACKEND_PORT }}
 jobs:
   build:
     runs-on: self-hosted
@@ -10,3 +13,4 @@ jobs:
       - run: cp -r * ~/timothypew-backend
       - run: yarn install
       - run: pm2 restart "tp-backend"
+      - run: echo ${{ secrets.TIMOTHYPEW_BACKEND_PORT }} > secrets.env
