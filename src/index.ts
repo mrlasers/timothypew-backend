@@ -14,22 +14,24 @@ import { MrError } from "./types"
 Dotenv.config()
 
 const port = 7070
-const openWeatherMapsKey = process.env.OPEN_WEATHER_MAPS_KEY
+const openWeatherMapsKey = process.env.OPEN_WEATHER_MAPS_KEY || ""
 const isDev = process.env.NODE_ENV === "development"
 
-if (!openWeatherMapsKey) {
-  console.log("Exiting with error: missing env var OPEN_WEATHER_MAPS_KEY")
-  Fs.writeFile("error_log", "OPEN_WEATHER_MAPS_KEY env variable wasn't set")
-  process.exit(1)
-}
+// if (!openWeatherMapsKey) {
+//   console.log("Exiting with error: missing env var OPEN_WEATHER_MAPS_KEY")
+//   Fs.writeFile("error_log", "OPEN_WEATHER_MAPS_KEY env variable wasn't set")
+//   process.exit(1)
+// }
 
 const app = Express()
 
-app.use(
-  Cors({
-    origin: [/timothypew\.com$/, /localhost$/],
-  })
-)
+app.use(Express.static("public"))
+
+// app.use(
+//   Cors({
+//     origin: [/timothypew\.com$/, /localhost$/],
+//   })
+// )
 
 export const GeoResponse = D.struct({
   zip: D.string,
@@ -70,7 +72,7 @@ const getForecastFromLocation = ({ lat, lon }: GeoResponse, appid: string) => {
 }
 
 app.get("/", (req, res) => {
-  res.send(`"Hello."`)
+  res.sendFile("timothy.html", { root: "public" })
 })
 
 app.get("/weather/forecast/:zip", (req, res) => {
