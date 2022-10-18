@@ -28,6 +28,8 @@ app.get("/", (req, res) => {
   // res.sendFile("index.html", { root: "public" })
 })
 
+app.get("/ping", Cors(), (req, res) => res.json("pong"))
+
 app.use("/api/weather", weatherRouter(openWeatherMapsKey))
 
 app.listen(port, () => {
