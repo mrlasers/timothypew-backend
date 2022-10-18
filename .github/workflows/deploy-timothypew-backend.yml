@@ -13,5 +13,5 @@ jobs:
       # - run: cd ~/timothypew-backend
       - run: yarn install
       - run: echo OPEN_WEATHER_MAPS_KEY=${{ secrets.OPEN_WEATHER_MAPS_KEY }} > .env
-      - run: echo $pwd
-      - run: pm2 startOrReload ecosystem.config.js
+      - run: pm2 reload ecosystem.config.js && pm2 save
+      # - run: pm2 startOrReload ecosystem.config.js
