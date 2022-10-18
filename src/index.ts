@@ -27,15 +27,7 @@ const app = Express()
 
 app.use(
   Cors({
-    origin: (origin, callback) => {
-      console.log("origin?", origin)
-
-      return isDev ||
-        (!!origin &&
-          (/localhost$/.test(origin) || /timothypew\.com$/.test(origin)))
-        ? callback(null, true)
-        : callback(new Error("Forbidden"))
-    },
+    origin: [/timothypew\.com$/, /localhost$/],
   })
 )
 
