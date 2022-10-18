@@ -1,3 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;700&display=swap");
+
+:root {
+  font-family: "Fira Code", "Lucida Sans", "Lucida Sans Regular",
+    "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  /* font-variant-ligatures: additional-ligatures; */
+  /* font-variant-ligatures: common-ligatures; */
+  font-variant-ligatures: normal;
+
+  text-align: center;
+}
+
 body {
-  background-color: coral;
+  padding: 0;
+  margin: 0;
+
+  display: grid;
+  place-content: center;
+  min-height: 100vh;
+
+  background-color: #3d3d3d;
+  color: #beeeef;
+}
+
+code {
+  font-family: "Fira Code";
+  font-variant-ligatures: additional-ligatures;
 }
