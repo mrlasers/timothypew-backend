@@ -24,7 +24,8 @@ if (isDev) {
 app.use(Express.static("public"))
 
 app.get("/", (req, res) => {
-  res.sendFile("index.html", { root: "public" })
+  res.send("timothy.pew.com")
+  // res.sendFile("index.html", { root: "public" })
 })
 
 app.use("/api/weather", weatherRouter(openWeatherMapsKey))
