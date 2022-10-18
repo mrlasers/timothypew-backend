@@ -13,7 +13,7 @@ import { MrError } from "./types"
 
 Dotenv.config()
 
-const port = process.env.TIMOTHYPEW_BACKEND_PORT || 7070
+const port = 7070
 const openWeatherMapsKey = process.env.OPEN_WEATHER_MAPS_KEY
 const isDev = process.env.NODE_ENV === "development"
 
