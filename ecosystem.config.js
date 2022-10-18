@@ -4,7 +4,6 @@ module.exports = {
       name: "Timothy Pew Backend",
       script: "yarn",
       args: "start",
-      path: "~/timothypew-backend",
     },
   ],
 }
