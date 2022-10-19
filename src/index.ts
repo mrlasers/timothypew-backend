@@ -1,8 +1,8 @@
-import Cors from 'cors'
-import * as Dotenv from 'dotenv'
-import Express from 'express'
+import Cors from "cors"
+import * as Dotenv from "dotenv"
+import Express from "express"
 
-import { weatherRouter } from './routes'
+import { weatherRouter } from "./routes"
 
 Dotenv.config()
 
