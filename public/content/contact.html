@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TimothyPew.com</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="main.js" type="module"></script>
+  </head>
+  <body>
+    <!-- main navigation -->
+    <header id="site-header">
+      <button class="toggle"><span>😂</span></button>
+      <!-- links to pages on site -->
+      <nav class="pages">
+        <ul>
+          <li><a href="/">About</a></li>
+          <li><a href="/projects.html">Projects</a></li>
+          <!--  <li><a href="blog.html">Blog</a></li> -->
+          <li><a href="#" class="active">Contact</a></li>
+        </ul>
+      </nav>
+      <!-- links to external social sites -->
+      <nav class="social">
+        <ul>
+          <li>
+            <a href="https://github.com/mrlasers" target="_blank"
+              ><i class="fa fa-github fa-lg"></i
+            ></a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/in/mrlasers" target="_blank"
+              ><i class="fa fa-linkedin fa-lg"></i
+            ></a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main id="content-container">
+      <!-- page content header -->
+      <header id="page-header">
+        <h1>Contact</h1>
+      </header>
+      <!-- each page content goes in one of these -->
+      <article>
+        <form method="POST" action="/contact">
+          <label>
+            <span>Name</span>
+            <input type="text" name="name" placeholder="John Doe" required />
+          </label>
+          <label>
+            <span>Email</span
+            ><input
+              type="email"
+              name="email"
+              placeholder="doeboi@johndoe.xyz"
+              required
+            />
+          </label>
+          <label>
+            <span>Message</span>
+            <textarea
+              name="message"
+              placeholder="How can I help you?"
+              required
+            ></textarea>
+          </label>
+
+          <button type="submit">Send it!</button>
+        </form>
+      </article>
+    </main>
+  </body>
+</html>

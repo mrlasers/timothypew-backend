@@ -1,7 +1,7 @@
 import Axios from "axios"
-import Cors from "cors"
+import * as Cors from "cors"
 import * as Dotenv from "dotenv"
-import Express from "express"
+import { Request, Response, Router } from "express"
 import * as E from "fp-ts/Either"
 import { flow, identity, Lazy, pipe } from "fp-ts/lib/function"
 import * as TE from "fp-ts/TaskEither"
@@ -49,9 +49,9 @@ const getForecastFromLocation = ({ lat, lon }: GeoResponse, appid: string) => {
 }
 
 export function weatherRouter(appid: string) {
-  const weatherRouter = Express.Router()
+  const weatherRouter = Router()
 
-  weatherRouter.get("/forecast/:zip", (req, res) => {
+  weatherRouter.get("/forecast/:zip", (req: Request, res: Response) => {
     return pipe(
       // should probably check that this is a 5-digit number
       req.params.zip,

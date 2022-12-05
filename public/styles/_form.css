@@ -1,0 +1,31 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+form label {
+  display: flex;
+  flex-direction: column;
+}
+
+form textarea {
+  resize: vertical;
+  min-height: 10rem;
+}
+
+input,
+textarea {
+  padding: 0.5em;
+}
+
+/* input:focus-visible, */
+input:focus-visible,
+textarea:focus-visible,
+button:focus-visible {
+  border: 2px solid var(--brand-clr, red);
+  border-radius: 2px;
+  filter: drop-shadow(0px 0px 1px var(--brand-clr, red));
+  outline: 0.8px solid var(--brand-clr, red);
+  outline-offset: 2px;
+}
