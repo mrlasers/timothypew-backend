@@ -28,6 +28,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {\
           "packageLocation": "./",\
           "packageDependencies": [\
+            ["@sendgrid/mail", "npm:7.7.0"],\
             ["@types/body-parser", "npm:1.19.2"],\
             ["@types/cors", "npm:2.8.12"],\
             ["@types/express", "npm:4.17.14"],\
@@ -157,6 +158,38 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@npmcli/move-file", "npm:2.0.1"],\
             ["mkdirp", "npm:1.0.4"],\
             ["rimraf", "npm:3.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@sendgrid/client", [\
+        ["npm:7.7.0", {\
+          "packageLocation": "./.yarn/cache/@sendgrid-client-npm-7.7.0-5f79fe887b-81299ff65b.zip/node_modules/@sendgrid/client/",\
+          "packageDependencies": [\
+            ["@sendgrid/client", "npm:7.7.0"],\
+            ["@sendgrid/helpers", "npm:7.7.0"],\
+            ["axios", "npm:0.26.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@sendgrid/helpers", [\
+        ["npm:7.7.0", {\
+          "packageLocation": "./.yarn/cache/@sendgrid-helpers-npm-7.7.0-6af68b3344-20387aae1b.zip/node_modules/@sendgrid/helpers/",\
+          "packageDependencies": [\
+            ["@sendgrid/helpers", "npm:7.7.0"],\
+            ["deepmerge", "npm:4.2.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@sendgrid/mail", [\
+        ["npm:7.7.0", {\
+          "packageLocation": "./.yarn/cache/@sendgrid-mail-npm-7.7.0-347c053cdb-8bd446c367.zip/node_modules/@sendgrid/mail/",\
+          "packageDependencies": [\
+            ["@sendgrid/mail", "npm:7.7.0"],\
+            ["@sendgrid/client", "npm:7.7.0"],\
+            ["@sendgrid/helpers", "npm:7.7.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -722,11 +755,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["axios", [\
+        ["npm:0.26.1", {\
+          "packageLocation": "./.yarn/cache/axios-npm-0.26.1-a6641ce4e3-d9eb58ff4b.zip/node_modules/axios/",\
+          "packageDependencies": [\
+            ["axios", "npm:0.26.1"],\
+            ["follow-redirects", "virtual:a6641ce4e3bdcc0997f8f53d9481b67c5d38e21276de8eeee7bf92881685b3ad5600bae416c2af904ceab8132bac649e7efd0af93f18e158e0e65ee05a263d72#npm:1.15.2"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:1.1.3", {\
           "packageLocation": "./.yarn/cache/axios-npm-1.1.3-4b63965ac1-cab3b17bf6.zip/node_modules/axios/",\
           "packageDependencies": [\
             ["axios", "npm:1.1.3"],\
-            ["follow-redirects", "virtual:4b63965ac1b2157b91a1875529bea3b0bbc3068d3676d1bef28bff5cf6689705374a86cc3832f95ba8d934037a93cc0e09c3662c13ca0e747800d7ca279a53c0#npm:1.15.2"],\
+            ["follow-redirects", "virtual:a6641ce4e3bdcc0997f8f53d9481b67c5d38e21276de8eeee7bf92881685b3ad5600bae416c2af904ceab8132bac649e7efd0af93f18e158e0e65ee05a263d72#npm:1.15.2"],\
             ["form-data", "npm:4.0.0"],\
             ["proxy-from-env", "npm:1.1.0"]\
           ],\
@@ -1188,6 +1229,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["deepmerge", [\
+        ["npm:4.2.2", {\
+          "packageLocation": "./.yarn/cache/deepmerge-npm-4.2.2-112165ced2-a8c43a1ed8.zip/node_modules/deepmerge/",\
+          "packageDependencies": [\
+            ["deepmerge", "npm:4.2.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["defer-to-connect", [\
         ["npm:2.0.1", {\
           "packageLocation": "./.yarn/cache/defer-to-connect-npm-2.0.1-9005cc8c60-8a9b50d2f2.zip/node_modules/defer-to-connect/",\
@@ -1475,10 +1525,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:4b63965ac1b2157b91a1875529bea3b0bbc3068d3676d1bef28bff5cf6689705374a86cc3832f95ba8d934037a93cc0e09c3662c13ca0e747800d7ca279a53c0#npm:1.15.2", {\
-          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-b0bb08d690/0/cache/follow-redirects-npm-1.15.2-1ec1dd82be-faa66059b6.zip/node_modules/follow-redirects/",\
+        ["virtual:a6641ce4e3bdcc0997f8f53d9481b67c5d38e21276de8eeee7bf92881685b3ad5600bae416c2af904ceab8132bac649e7efd0af93f18e158e0e65ee05a263d72#npm:1.15.2", {\
+          "packageLocation": "./.yarn/__virtual__/follow-redirects-virtual-1a488024d3/0/cache/follow-redirects-npm-1.15.2-1ec1dd82be-faa66059b6.zip/node_modules/follow-redirects/",\
           "packageDependencies": [\
-            ["follow-redirects", "virtual:4b63965ac1b2157b91a1875529bea3b0bbc3068d3676d1bef28bff5cf6689705374a86cc3832f95ba8d934037a93cc0e09c3662c13ca0e747800d7ca279a53c0#npm:1.15.2"],\
+            ["follow-redirects", "virtual:a6641ce4e3bdcc0997f8f53d9481b67c5d38e21276de8eeee7bf92881685b3ad5600bae416c2af904ceab8132bac649e7efd0af93f18e158e0e65ee05a263d72#npm:1.15.2"],\
             ["@types/debug", null],\
             ["debug", null]\
           ],\
@@ -3111,6 +3161,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["timothypew-backend", "workspace:."],\
+            ["@sendgrid/mail", "npm:7.7.0"],\
             ["@types/body-parser", "npm:1.19.2"],\
             ["@types/cors", "npm:2.8.12"],\
             ["@types/express", "npm:4.17.14"],\

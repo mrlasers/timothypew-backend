@@ -19,6 +19,10 @@ textarea {
   padding: 0.5em;
 }
 
+form button {
+  padding: 0.5em;
+}
+
 /* input:focus-visible, */
 input:focus-visible,
 textarea:focus-visible,

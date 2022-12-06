@@ -263,6 +263,13 @@ article.project .desc > *:last-child {
   padding-bottom: 0;
 }
 
+/* IMAGES */
+article img {
+  max-width: 80%;
+  margin: 1em auto;
+  object-fit: cover;
+}
+
 /* MEDIA QUERIES */
 
 @media screen and (max-width: 499px) {
@@ -271,9 +278,13 @@ article.project .desc > *:last-child {
     --spacing-v: 0.5rem;
   }
 
-  /* body {
-    background-color: green;
-  } */
+  div.founders {
+    display: grid;
+    grid-template: 1fr 1fr / auto;
+    gap: 1rem;
+
+    margin-block: 1rem;
+  }
 
   nav.toggle ul {
     max-height: 0;
