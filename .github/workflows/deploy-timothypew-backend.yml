@@ -13,5 +13,8 @@ jobs:
       # - run: cd ~/timothypew-backend
       - run: yarn install
       - run: echo OPEN_WEATHER_MAPS_KEY=${{ secrets.OPEN_WEATHER_MAPS_KEY }} > .env
+      - run: echo MY_FROM_EMAIL=${{ secrets.MY_FROM_EMAIL }} >> .env
+      - run: echo MY_TO_EMAIL=${{ secrets.MY_TO_EMAIL }} >> .env
+      - run: echo SENDGRID_API_KEY=${{ secrets.SENDGRID_API_KEY }} >> .env
       - run: pm2 reload ecosystem.config.js && pm2 save
       # - run: pm2 startOrReload ecosystem.config.js
