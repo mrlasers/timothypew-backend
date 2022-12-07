@@ -14,70 +14,79 @@ import * as SGMail from "@sendgrid/mail"
 import { weatherRouter } from "./routes"
 
 Dotenv.config()
-
-// read our sgmail envs and set api key
-const mailEnvs = pipe(
-  process.env.SENDGRID_API_KEY,
-  TE.fromNullable("SENDGRID_API_KEY environment variable not set"),
-  TE.map((key) => SGMail.setApiKey(key)),
-  TE.bindTo("_api_key"),
-  TE.bind("from", () =>
-    pipe(
-      process.env.MY_FROM_EMAIL,
-      TE.fromNullable("MY_FROM_EMAIL env variable not set")
-    )
-  ),
-  TE.bind("to", () =>
-    pipe(
-      process.env.MY_TO_EMAIL,
-      TE.fromNullable("MY_TO_EMAIL env variable not set")
-    )
-  )
-)
-
-const sendEmail = (contact: Contact) => {
-  return pipe(
-    mailEnvs,
-    TE.map(({ from, to }) => {
-      return {
-        to: to,
-        from: from,
-        subject: "Message received at TimothyPew.com",
-        text: contact.message,
-        html: contact.message
-          .split(/[\r\n]+/)
-          .map((line) => `<p>${line}</p>`)
-          .join(""),
-      }
-    }),
-    TE.chainW((msg) =>
-      TE.tryCatch(
-        () => SGMail.send(msg),
-        (reason) => new Error(String(reason))
-      )
-    )
-  )
-}
-
 const port = 7070
 const openWeatherMapsKey = process.env.OPEN_WEATHER_MAPS_KEY || ""
-const isDev = process.env.NODE_ENV === "development"
 
-console.log("isDev", isDev)
+const DONT_SEND = true
+
+// CONFIGURATOR FOR SENDGRID
+const configureSendGrid = ({
+  sendGrid,
+  env,
+  config,
+}: {
+  sendGrid: SGMail.MailService //{ setApiKey: (key: string) => void },
+  env: { [k in string]?: string }
+  config?: {
+    subject?: (contact: Contact) => string
+    logger?: { log: (...msg: any[]) => void; error: (...msg: any[]) => void }
+  }
+}): ((
+  contact: Contact,
+) => TE.TaskEither<string, [SGMail.ClientResponse, {}]>) =>
+  pipe(
+    env.SENDGRID_API_KEY,
+    E.fromNullable("SENDGRID_API_KEY env variable not set"),
+    E.map((key) => sendGrid.setApiKey(key)),
+    E.bind("from", () =>
+      pipe(
+        env.MY_FROM_EMAIL,
+        E.fromNullable("MY_FROM_EMAIL env variable not set"),
+      ),
+    ),
+    E.bind("to", () =>
+      pipe(env.MY_TO_EMAIL, E.fromNullable("MY_TO_EMAIL env variable not set")),
+    ),
+    E.fold(
+      (err) => (_) => {
+        config?.logger?.error(err)
+        return TE.left(err)
+      },
+      ({ to, from }) =>
+        (contact) => {
+          const subject =
+            config?.subject?.(contact) || "Message received at TimothyPew.com"
+
+          const message = {
+            to: to,
+            from: from,
+            subject: subject,
+            text: contact.message,
+            html: contact.message
+              .split(/[\r\n]+/)
+              .map((line) => `<p>${line}</p>`)
+              .join(""),
+          }
+
+          config?.logger?.log(message)
+
+          return TE.tryCatch(
+            () => sendGrid.send(message),
+            (err) => String(err),
+          )
+        },
+    ),
+  )
+
+// CONFIGURED SENDGRID SENDER
+const sendEmail = configureSendGrid({
+  sendGrid: SGMail,
+  env: process.env,
+})
 
 const app = Express()
 
 app.use(BodyParser.urlencoded({ extended: true }))
-
-if (isDev) {
-  console.log("enabling cors...")
-  // i _really_ hate if statements; they're no good
-  app.use(
-    Cors({
-      origin: ["http://localhost:5173"],
-    })
-  )
-}
 
 const staticFiles: Parameters<typeof Express.static>[] = [
   ["public/content", { extensions: ["html"], fallthrough: true }],
@@ -104,24 +113,15 @@ const Contact = D.struct({
 type Contact = D.TypeOf<typeof Contact>
 
 app.post("/contact", (req: Express.Request, res: Express.Response) => {
-  pipe(Contact.decode(req.body), TE.fromEither, TE.chainW(sendEmail))().then(
-    (result) => console.log("sendgrid complete: ", result)
-  )
-  // console.log(req.params)
-  // res.sendFile(`${req.params.file}.html`, { root: "public" })
-  console.log(Contact.decode(req.body))
-  res.redirect("/thanks.html")
+  pipe(Contact.decode(req.body), TE.fromEither, TE.chainW(sendEmail))()
+    .then((_) => res.redirect("/thanks.html"))
+    .catch((_) => res.redirect("/404.html"))
 })
-
-app.get("/ping", Cors(), (req: Express.Request, res: Express.Response) =>
-  res.json("pong")
-)
 
 app.use("/api/weather", weatherRouter(openWeatherMapsKey))
 
 app.all("*", (req: Express.Request, res: Express.Response) => {
   res.sendFile("404.html", { root: "public/content" })
-  // res.sendFile("404.html", { root: "public/content" })
 })
 
 app.listen(port, () => {
