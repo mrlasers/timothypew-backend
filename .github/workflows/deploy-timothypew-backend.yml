@@ -11,7 +11,7 @@ jobs:
       # - run: mkdir -p ~/timothypew-backend
       # - run: cp -r * ~/timothypew-backend
       # - run: cd ~/timothypew-backend
-      - run: yarn install
+      - run: yarn install && yarn build
       - run: echo OPEN_WEATHER_MAPS_KEY=${{ secrets.OPEN_WEATHER_MAPS_KEY }} > .env
       - run: echo MY_FROM_EMAIL=${{ secrets.MY_FROM_EMAIL }} >> .env
       - run: echo MY_TO_EMAIL=${{ secrets.MY_TO_EMAIL }} >> .env

@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "strict": true,
     "lib": ["DOM"],
-    "target": "ESNext",
     "module": "CommonJS",
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "outDir": "dist",
+    "strict": true,
+    "target": "ESNext"
   }
 }
